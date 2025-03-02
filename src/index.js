@@ -7,8 +7,6 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const TOKEN = 'MTM0NTYyMDA4NzE3NjAzNjQyMw.GDQwPZ.vtvjC_BzxIbU3XXB0k9zts3DmVE7Ed-T44NA3A';
 
 client.once(Events.ClientReady, () => {
-    client.user.setActivity('Заявки', { type: 'WATCHING' });
-
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
