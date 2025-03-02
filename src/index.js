@@ -7,6 +7,8 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const TOKEN = 'MTM0NTYyMDA4NzE3NjAzNjQyMw.GDQwPZ.vtvjC_BzxIbU3XXB0k9zts3DmVE7Ed-T44NA3A';
 
 client.once(Events.ClientReady, () => {
+    client.user.setActivity('Заявки', { type: 'WATCHING' });
+
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
@@ -84,25 +86,25 @@ client.on(Events.InteractionCreate, async interaction => {
 
         // Обработка нажатий на кнопки
         if (interaction.isButton()) {
-            const responseChannel = client.channels.cache.get('1345627664760963174'); // Замените на ID канала для ответов
+            const responseChannel = client.channels.cache.get('1345627664760963174');
 
             if (interaction.customId === 'accept') {
                 await interaction.reply({ content: 'Заявка принята!', ephemeral: true });
                 const applicantId = interaction.message.content.split('ID: ')[1];
                 const member = interaction.guild.members.cache.get(applicantId);
-                const role = interaction.guild.roles.cache.find(r => r.name === 'Player'); // Замените на название роли
+                const role = interaction.guild.roles.cache.find(r => r.name === 'Player');
                 if (role) {
-                    await member.roles.add(role).catch(console.error); // Добавляем роль
+                    await member.roles.add(role).catch(console.error);
                 }
-                const messageToDelete = interaction.message; // Сохраняем сообщение с кнопками
-                await messageToDelete.delete().catch(console.error); // Удаляем сообщение с кнопками
+                const messageToDelete = interaction.message;
+                await messageToDelete.delete().catch(console.error);
                 await responseChannel.send(`Участник ${member.displayName} принят.`);
             } else if (interaction.customId === 'reject') {
                 await interaction.reply({ content: 'Заявка отклонена!', ephemeral: true });
                 const applicantId = interaction.message.content.split('ID: ')[1];
                 const member = interaction.guild.members.cache.get(applicantId);
-                const messageToDelete = interaction.message; // Сохраняем сообщение с кнопками
-                await messageToDelete.delete().catch(console.error); // Удаляем сообщение с кнопками
+                const messageToDelete = interaction.message;
+                await messageToDelete.delete().catch(console.error);
                 await responseChannel.send(`Участник ${member.displayName} отклонен.`);
             }
         }
