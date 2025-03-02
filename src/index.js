@@ -74,6 +74,12 @@ client.on(Events.InteractionCreate, async interaction => {
             const about = interaction.fields.getTextInputValue('about');
             const other = interaction.fields.getTextInputValue('other');
 
+            const member = interaction.guild.members.cache.get(interaction.user.id);
+            const role = interaction.guild.roles.cache.find(r => r.name === 'waiting');
+            if (role) {
+                await member.roles.add(role).catch(console.error);
+            }
+
             // Отправка заявки в другой канал
             const applicationChannel = client.channels.cache.get('1345627267119714367'); // Замените на ID канала
             const acceptButton = new ButtonBuilder()
@@ -110,6 +116,11 @@ client.on(Events.InteractionCreate, async interaction => {
                     await member.roles.add(role).catch(console.error);
                 }
 
+                const roleTwo = interaction.guild.roles.cache.find(r => r.name === 'waiting');
+                if (roleTwo){
+                    await member.roles.remove(roleTwo).catch(console.error);
+                }
+
                 const messageToDelete = interaction.message;
                 await messageToDelete.delete().catch(console.error);
 
@@ -127,6 +138,11 @@ client.on(Events.InteractionCreate, async interaction => {
 
                 const member = interaction.guild.members.cache.get(applicantId);
                 const messageToDelete = interaction.message;
+
+                const roleTwo = interaction.guild.roles.cache.find(r => r.name === 'waiting');
+                if (roleTwo){
+                    await member.roles.remove(roleTwo).catch(console.error);
+                }
 
                 const info = new ButtonBuilder()
                     .setCustomId('notAllowed')
