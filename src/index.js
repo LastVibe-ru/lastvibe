@@ -40,29 +40,46 @@ client.on(Events.InteractionCreate, async interaction => {
             const nameInput = new TextInputBuilder()
                 .setCustomId('name')
                 .setLabel('Игровой никнейм')
+                .setPlaceholder('karpen')
                 .setStyle(TextInputStyle.Short);
 
             const ageInput = new TextInputBuilder()
                 .setCustomId('age')
-                .setLabel('Возраст')
+                .setLabel('Возраст/стаж в игре')
+                .setPlaceholder('17/10 лет')
                 .setStyle(TextInputStyle.Short);
 
             const otherServersInput = new TextInputBuilder()
                 .setCustomId('other')
-                .setLabel('Играли ли на других серверах')
+                .setLabel('Играли ли на подобных серверах')
+                .setPlaceholder('Да / Нет ...')
                 .setStyle(TextInputStyle.Short);
 
-            const aboutInput = new TextInputBuilder()
-                .setCustomId('about')
-                .setLabel('Коротко о себе')
-                .setStyle(TextInputStyle.Paragraph);
+            const timeInput = new TextInputBuilder()
+                .setCustomId('time')
+                .setLabel('Сколько времени вы готовы уделять на сервер')
+                .setPlaceholder('2 - 3 часа в день')
+                .setStyle(TextInputStyle.Short);
+
+            const unInput = new TextInputBuilder()
+                .setCustomId('un')
+                .setLabel('Почему мы должны взять именно вас')
+                .setPlaceholder('Я хороший строитель, умею...')
+                .setStyle(TextInputStyle.Paragraph)
+
+                //const aboutInput = new TextInputBuilder()
+                //.setCustomId('about')
+                //.setLabel('Краткая информация о себе')
+                //.setStyle(TextInputStyle.Paragraph);
 
             const firstActionRow = new ActionRowBuilder().addComponents(nameInput);
             const secondActionRow = new ActionRowBuilder().addComponents(ageInput);
-            const thirdActionRow = new ActionRowBuilder().addComponents(aboutInput);
+            //const thirdActionRow = new ActionRowBuilder().addComponents(aboutInput);
             const other = new ActionRowBuilder().addComponents(otherServersInput);
+            const time = new ActionRowBuilder().addComponents(timeInput);
+            const unicale = new ActionRowBuilder().addComponents(unInput);
 
-            modal.addComponents(firstActionRow, secondActionRow, other, thirdActionRow);
+            modal.addComponents(firstActionRow, secondActionRow, other, time, unicale);
 
             await interaction.showModal(modal);
         }
@@ -71,8 +88,10 @@ client.on(Events.InteractionCreate, async interaction => {
         if (interaction.isModalSubmit() && interaction.customId === 'sendModal') {
             const name = interaction.fields.getTextInputValue('name');
             const age = interaction.fields.getTextInputValue('age');
-            const about = interaction.fields.getTextInputValue('about');
+            //const about = interaction.fields.getTextInputValue('about');
             const other = interaction.fields.getTextInputValue('other');
+            const unicale = interaction.fields.getTextInputValue('un');
+            const time = interaction.fields.getTextInputValue('time');
 
             const member = interaction.guild.members.cache.get(interaction.user.id);
             const role = interaction.guild.roles.cache.find(r => r.name === 'waiting');
@@ -95,7 +114,7 @@ client.on(Events.InteractionCreate, async interaction => {
             const row = new ActionRowBuilder().addComponents(acceptButton, rejectButton);
 
             await applicationChannel.send({
-                content: `Новая заявка от ${name}:\nВозраст: ${age}\nО себе: ${about} \nДругие сервера: ${other} \nID: ${interaction.user.id}`,
+                content: `Новая заявка от ${name}:\nВозраст: ${age}\nДругие сервера: ${other} \nВремя на сервер: ${time} \nЧто может дать серверу: ${unicale} \nID: ${interaction.user.id}`,
                 components: [row],
             });
 
@@ -156,7 +175,7 @@ client.on(Events.InteractionCreate, async interaction => {
             } else if (interaction.customId === 'info'){
                 await interaction.reply({ content: `Вы приняты, ваш ник добавлен в вайтлист, чтобы начать игру чиатйте <#1338192259010789526>`, ephemeral: true })
             } else if (interaction.customId === 'notAllowed'){
-                await interaction.reply({ content: `Вашу заявку отклонили, но вы всегда можете написать еще одну`, ephemeral: true });
+                await interaction.reply({ content: `Вашу заявку отклонили, но вы всегда можете купить проходку в <#1338192259010789526>, или подать заявку еще раз через некоторое время.`, ephemeral: true });
             }
         }
 
