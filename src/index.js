@@ -99,6 +99,8 @@ client.on(Events.InteractionCreate, async interaction => {
                 await member.roles.add(role).catch(console.error);
             }
 
+            await member.setNickname(name);
+
             // Отправка заявки в другой канал
             const applicationChannel = client.channels.cache.get('1345627267119714367'); // Замените на ID канала
             const acceptButton = new ButtonBuilder()
