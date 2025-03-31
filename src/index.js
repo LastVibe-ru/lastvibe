@@ -1,10 +1,20 @@
+// This code is not ideal
+// Please send issue - https://github.com/LastVibe-ru/lastvibeAd/issues
+
 const { Client, GatewayIntentBits, Events, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
+const fs = require('fs');
+
+const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
-const TOKEN = 'MTM0NTYyMDA4NzE3NjAzNjQyMw.GDQwPZ.vtvjC_BzxIbU3XXB0k9zts3DmVE7Ed-T44NA3A';
+// Don't try using api in commit hystory
+// We create new api >_<
+
+const TOKEN = config.discord_api;
 
 client.once(Events.ClientReady, () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -101,8 +111,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
             await member.setNickname(name);
 
-            // Отправка заявки в другой канал
-            const applicationChannel = client.channels.cache.get('1345627267119714367'); // Замените на ID канала
+            const applicationChannel = client.channels.cache.get(config.application_chan);
             const acceptButton = new ButtonBuilder()
                 .setCustomId('accept')
                 .setLabel('Принять')
@@ -123,9 +132,8 @@ client.on(Events.InteractionCreate, async interaction => {
             await interaction.reply({ content: 'Ваша заявка отправлена!', ephemeral: true });
         }
 
-        // Обработка нажатий на кнопки
         if (interaction.isButton()) {
-            const responseChannel = client.channels.cache.get('1345627664760963174');
+            const responseChannel = client.channels.cache.get(config.res_chan);
 
             if (interaction.customId === 'accept') {
                 await interaction.reply({ content: 'Заявка принята!', ephemeral: true });
