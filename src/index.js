@@ -11,7 +11,7 @@ const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
-// Don't try using api in commit hystory
+// Don't try using api key in commit hystory
 // We create new api >_<
 
 const TOKEN = config.discord_api;
@@ -77,10 +77,10 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setPlaceholder('Я хороший строитель, умею...')
                 .setStyle(TextInputStyle.Paragraph)
 
-                //const aboutInput = new TextInputBuilder()
-                //.setCustomId('about')
-                //.setLabel('Краткая информация о себе')
-                //.setStyle(TextInputStyle.Paragraph);
+            //const aboutInput = new TextInputBuilder()
+            //.setCustomId('about')
+            //.setLabel('Краткая информация о себе')
+            //.setStyle(TextInputStyle.Paragraph);
 
             const firstActionRow = new ActionRowBuilder().addComponents(nameInput);
             const secondActionRow = new ActionRowBuilder().addComponents(ageInput);
@@ -146,7 +146,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 }
 
                 const roleTwo = interaction.guild.roles.cache.find(r => r.name === 'waiting');
-                if (roleTwo){
+                if (roleTwo) {
                     await member.roles.remove(roleTwo).catch(console.error);
                 }
 
@@ -169,7 +169,7 @@ client.on(Events.InteractionCreate, async interaction => {
                 const messageToDelete = interaction.message;
 
                 const roleTwo = interaction.guild.roles.cache.find(r => r.name === 'waiting');
-                if (roleTwo){
+                if (roleTwo) {
                     await member.roles.remove(roleTwo).catch(console.error);
                 }
 
@@ -182,9 +182,9 @@ client.on(Events.InteractionCreate, async interaction => {
 
                 await messageToDelete.delete().catch(console.error);
                 await responseChannel.send({ content: `❌ Участник ${member.displayName} не принят.`, components: [row] });
-            } else if (interaction.customId === 'info'){
+            } else if (interaction.customId === 'info') {
                 await interaction.reply({ content: `Вы приняты, ваш ник добавлен в вайтлист, чтобы начать игру чиатйте <#1338192259010789526>`, ephemeral: true })
-            } else if (interaction.customId === 'notAllowed'){
+            } else if (interaction.customId === 'notAllowed') {
                 await interaction.reply({ content: `Вашу заявку отклонили, но вы всегда можете купить проходку в <#1338192259010789526>, или подать заявку еще раз через некоторое время.`, ephemeral: true });
             }
         }
