@@ -11,7 +11,7 @@ const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
-// Don't try using api key in commit hystory
+// Don't try using api key in commit history
 // We create new api >_<
 
 const TOKEN = config.discord_api;
@@ -91,7 +91,11 @@ client.on(Events.InteractionCreate, async interaction => {
 
             modal.addComponents(firstActionRow, secondActionRow, other, time, unicale);
 
-            await interaction.showModal(modal);
+            if (config.allowed === false){
+                await interaction.reply({ content: 'Подача заявок временно приостановлена.', ephemeral: true });
+            } else {
+                await interaction.showModal(modal);
+            }
         }
 
         // Обработка отправки модального окна
