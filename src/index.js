@@ -35,8 +35,6 @@ client.on(Events.MessageCreate, async message => {
             .setImage('https://cdn.discordapp.com/attachments/1299609343829737512/1345680608331956234/3195971296aa5178.jpg?ex=67c56e3a&is=67c41cba&hm=bce97493cef3c1c560486a4fcc94b2c435f5f747aa87e27eec2db58618681782&');
 
         await message.channel.send({ embeds: [embed], components: [row] });
-
-        //await message.channel.send({ files: ['https://cdn.discordapp.com/attachments/1299609343829737512/1345680608331956234/3195971296aa5178.jpg?ex=67c56e3a&is=67c41cba&hm=bce97493cef3c1c560486a4fcc94b2c435f5f747aa87e27eec2db58618681782&'], content: '👋 Чтобы играть на сервере вам нужно подать заявку ниже', components: [row] });
     }
 });
 
@@ -77,14 +75,8 @@ client.on(Events.InteractionCreate, async interaction => {
                 .setPlaceholder('Я хороший строитель, умею...')
                 .setStyle(TextInputStyle.Paragraph)
 
-            //const aboutInput = new TextInputBuilder()
-            //.setCustomId('about')
-            //.setLabel('Краткая информация о себе')
-            //.setStyle(TextInputStyle.Paragraph);
-
             const firstActionRow = new ActionRowBuilder().addComponents(nameInput);
             const secondActionRow = new ActionRowBuilder().addComponents(ageInput);
-            //const thirdActionRow = new ActionRowBuilder().addComponents(aboutInput);
             const other = new ActionRowBuilder().addComponents(otherServersInput);
             const time = new ActionRowBuilder().addComponents(timeInput);
             const unicale = new ActionRowBuilder().addComponents(unInput);
@@ -98,11 +90,9 @@ client.on(Events.InteractionCreate, async interaction => {
             }
         }
 
-        // Обработка отправки модального окна
         if (interaction.isModalSubmit() && interaction.customId === 'sendModal') {
             const name = interaction.fields.getTextInputValue('name');
             const age = interaction.fields.getTextInputValue('age');
-            //const about = interaction.fields.getTextInputValue('about');
             const other = interaction.fields.getTextInputValue('other');
             const unicale = interaction.fields.getTextInputValue('un');
             const time = interaction.fields.getTextInputValue('time');
@@ -199,5 +189,4 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
-// Логин бота
 client.login(TOKEN);
