@@ -1,6 +1,7 @@
 {
-    "discord_api": "YOU_API",
-    "application_chan": "YOU_ID",
-    "res_chan": "YOU_ID",
-    "allowed": true
+  "discord_api": "YOU_DS_API",
+  "application_chan": "YOU_ID",
+  "res_chan": "YOU_ID",
+  "api_key": "YOU_KEY",
+  "allowed": true
 }

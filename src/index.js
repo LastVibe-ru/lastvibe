@@ -158,6 +158,17 @@ async function handleAcceptApplication(interaction) {
 
         const member = await interaction.guild.members.fetch(applicantId);
 
+        const res = await fetch(`http://localhost:9010/api/allow?name=${member.displayName}&key=${config.api_key}`);
+        if (!res.ok){
+            console.error("Failed fetch");
+        }
+
+        const data = res.text();
+
+        if (data !== "Success"){
+            console.error("Filed add to whitelist");
+        }
+
         const playerRole = interaction.guild.roles.cache.find(r => r.name === 'Player');
         if (playerRole) {
             await member.roles.add(playerRole);
