@@ -90,7 +90,7 @@ async function handleApplicationModal(interaction) {
 
 async function handleSubmittedApplication(interaction) {
     try {
-        const name = interaction.fields.getTextInputValue('name');
+        const name = interaction.fields.getTextInputValue('name').trim();
         const age = interaction.fields.getTextInputValue('age');
         const other = interaction.fields.getTextInputValue('other');
         const unique = interaction.fields.getTextInputValue('un');
