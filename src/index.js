@@ -81,7 +81,27 @@ async function handleApplicationModal(interaction) {
             modal.addComponents(row);
         });
 
-        await interaction.showModal(modal);
+        try {
+            const req = await fetch('https://karpendev.ru/api/lv', {
+                method: "GET",
+            });
+
+            if (!req.ok){
+                await interaction.reply({ content: 'Ошибка проверки доступности', ephemeral: true });
+                return;
+            }
+
+            const data = await req.json();
+            const available = await data["requests"];
+
+            if (available){
+                await interaction.showModal(modal);
+            } else {
+                await interaction.reply({ content: 'Подача заявок временно приостановлена', ephemeral: true });
+            }
+        } catch (e){
+            console.log(e);
+        }
     } catch (error) {
         console.error('Ошибка при показе модального окна:', error);
         await interaction.reply({ content: 'Произошла ошибка при открытии формы.', ephemeral: true });
